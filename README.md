@@ -69,3 +69,7 @@ class Solution {
     }
 }
 ```
+
+## Follow up: Could you find an O(nums1.length + nums2.length) solution?
+
+
