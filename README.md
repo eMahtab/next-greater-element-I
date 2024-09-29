@@ -72,4 +72,43 @@ class Solution {
 
 ## Follow up: Could you find an O(nums1.length + nums2.length) solution?
 
+## Implementation 2 : Using Stack
+```java
+class Solution {
+    public int[] nextGreaterElement(int[] nums1, int[] nums2) {
+        if(nums2 == null || nums2.length == 0)
+          return new int[0];
+        int[] nextGreater = new int[nums2.length];
+        if(nums2.length >= 1) {
+            nextGreater[nums2.length-1] = -1;
+        }
+        Map<Integer,Integer> valueToIndex = new HashMap<>();
+        valueToIndex.put(nums2[nums2.length-1], nums2.length-1);
+        Stack<Integer> stack = new Stack<>();
+        stack.push(nums2[nums2.length-1]);
+        for(int i = nums2.length-2; i >= 0; i--) {
+            valueToIndex.put(nums2[i], i);
+            if(nums2[i] >= stack.peek()) {
+                while(!stack.isEmpty() && nums2[i] >= stack.peek()) {
+                    stack.pop();
+                }
+                if(stack.isEmpty()) {
+                    nextGreater[i] = -1;
+                } else{
+                    nextGreater[i] = stack.peek();
+                }
+            } else {
+                nextGreater[i] = stack.peek();
+            }
+            stack.push(nums2[i]);
+        }
+        
+        int[] result = new int[nums1.length];
+        for(int i = 0; i < nums1.length; i++) {
+            result[i] = nextGreater[valueToIndex.get(nums1[i])];
+        }
+        return result;
+    }
+}
+```
 
